@@ -1,204 +1,296 @@
 /* eslint-disable no-unused-vars */
 
+// Declare the type for the props of the SearchParam component
 declare type SearchParamProps = {
+  // An object containing the original query parameters
   params: { [key: string]: string };
+  // An object containing the parsed query parameters
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 // ========================================
 
+// Declare the type for the parameters of the sign up form
 declare type SignUpParams = {
+  // The user's first name
   firstName: string;
+  // The user's last name
   lastName: string;
+  // The address line 1 of the user's address
   address1: string;
+  // The city of the user's address
   city: string;
+  // The state of the user's address
   state: string;
+  // The postal code of the user's address
   postalCode: string;
+  // The user's date of birth
   dateOfBirth: string;
+  // The user's social security number
   ssn: string;
+  // The user's email address
   email: string;
+  // The user's chosen password
   password: string;
 };
 
+// Declare the type for the user object containing user credentials
 declare type LoginUser = {
+  // The user's email address
   email: string;
+  // The user's chosen password
   password: string;
 };
 
+// Declare the type for the user object returned by the API
 declare type User = {
+  // The unique ID of the user
   $id: string;
+  // The user's email address
   email: string;
+  // The unique ID of the user
   userId: string;
+  // The URL of the user's Dwolla customer account
   dwollaCustomerUrl: string;
+  // The ID of the user's Dwolla customer account
   dwollaCustomerId: string;
+  // The user's first name
   firstName: string;
+  // The user's last name
   lastName: string;
+  // The user's full name
   name: string;
+  // The address line 1 of the user's address
   address1: string;
+  // The city of the user's address
   city: string;
+  // The state of the user's address
   state: string;
+  // The postal code of the user's address
   postalCode: string;
+  // The user's date of birth
   dateOfBirth: string;
+  // The user's social security number
   ssn: string;
 };
 
+// Declare the type for the parameters of a new user request
 declare type NewUserParams = {
+  // The unique ID of the user
   userId: string;
+  // The user's email address
   email: string;
+  // The user's full name
   name: string;
+  // The user's chosen password
   password: string;
 };
 
+// Declare the type for the account object returned by the API
 declare type Account = {
+  // The unique ID of the account
   id: string;
+  // The available balance of the account
   availableBalance: number;
+  // The current balance of the account
   currentBalance: number;
+  // The official name of the account's financial institution
   officialName: string;
+  // The masked account number for the account
   mask: string;
+  // The ID of the account's financial institution
   institutionId: string;
+  // The name of the account
   name: string;
+  // The type of the account
   type: string;
+  // The subtype of the account
   subtype: string;
+  // The ID of the Appwrite item representing the account
   appwriteItemId: string;
+  // The shareable ID of the account
   shareableId: string;
 };
 
+// Declare the type for the transaction object returned by the API
 declare type Transaction = {
+  // The unique ID of the transaction
   id: string;
+  // The unique ID of the transaction (legacy)
   $id: string;
+  // The name of the transaction
   name: string;
+  // The payment channel used for the transaction
   paymentChannel: string;
+  // The type of the transaction
   type: string;
+  // The ID of the account associated with the transaction
   accountId: string;
+  // The amount of the transaction
   amount: number;
+  // Indicates whether the transaction is pending or not
   pending: boolean;
+  // The category of the transaction
   category: string;
+  // The date of the transaction
   date: string;
+  // The image associated with the transaction (if any)
   image: string;
+  // The type of the transaction (legacy)
   type: string;
+  // The creation date of the transaction
   $createdAt: string;
+  // The channel of the transaction (legacy)
   channel: string;
+  // The ID of the sender's bank account (if any)
   senderBankId: string;
+  // The ID of the receiver's bank account (if any)
   receiverBankId: string;
 };
 
+// Declare the type for the bank object returned by the API
 declare type Bank = {
+  // The unique ID of the bank account
   $id: string;
+  // The ID of the account associated with the bank account
   accountId: string;
+  // The ID of the bank associated with the account
   bankId: string;
+  // The access token for the bank account
   accessToken: string;
+  // The URL of the bank account's funding source
   fundingSourceUrl: string;
+  // The unique ID of the user associated with the bank account
   userId: string;
+  // The shareable ID of the bank account
   shareableId: string;
 };
 
+// Declare the possible types for account types
 declare type AccountTypes =
-  | "depository"
-  | "credit"
-  | "loan "
-  | "investment"
-  | "other";
+  | "depository" // A depository account allows you to deposit and withdraw money
+  | "credit" // A credit account is used to borrow money
+  | "loan" // A loan account is used to borrow money
+  | "investment" // An investment account is used to invest money in financial instruments
+  | "other"; // Other types of accounts that do not fit the above categories
 
+// Define the possible categories for transactions
 declare type Category = "Food and Drink" | "Travel" | "Transfer";
 
+// Define the type for the category count data returned by the API
 declare type CategoryCount = {
-  name: string;
-  count: number;
-  totalCount: number;
+  name: string; // The name of the category
+  count: number; // The number of transactions in this category
+  totalCount: number; // The total number of transactions across all categories
 };
 
+// Define the type for the receiver data returned by the API
 declare type Receiver = {
-  firstName: string;
-  lastName: string;
+  firstName: string; // The first name of the receiver
+  lastName: string; // The last name of the receiver
 };
 
+// Define the type for the parameters of a transfer request
 declare type TransferParams = {
-  sourceFundingSourceUrl: string;
-  destinationFundingSourceUrl: string;
-  amount: string;
+  sourceFundingSourceUrl: string; // The URL of the funding source for the source account
+  destinationFundingSourceUrl: string; // The URL of the funding source for the destination account
+  amount: string; // The amount to transfer
 };
 
+// Define the type for the parameters of a new funding source request
 declare type AddFundingSourceParams = {
-  dwollaCustomerId: string;
-  processorToken: string;
-  bankName: string;
+  dwollaCustomerId: string; // The ID of the Dwolla customer
+  processorToken: string; // The token for the processor
+  bankName: string; // The name of the bank
 };
 
+// Define the type for the parameters of a new Dwolla customer request
 declare type NewDwollaCustomerParams = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  type: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
+  firstName: string; // The first name of the customer
+  lastName: string; // The last name of the customer
+  email: string; // The email address of the customer
+  type: string; // The type of the customer
+  address1: string; // The first line of the customer's address
+  city: string; // The city of the customer's address
+  state: string; // The state of the customer's address
+  postalCode: string; // The postal code of the customer's address
+  dateOfBirth: string; // The date of birth of the customer
+  ssn: string; // The Social Security number of the customer
 };
 
+// Define the props for the CreditCard component
 declare interface CreditCardProps {
-  account: Account;
-  userName: string;
-  showBalance?: boolean;
+  account: Account; // The account object to display
+  userName: string; // The name of the user
+  showBalance?: boolean; // Whether to show the balance of the account
 }
 
+// Define the props for the BankInfo component
 declare interface BankInfoProps {
-  account: Account;
-  appwriteItemId?: string;
-  type: "full" | "card";
+  account: Account; // The account object to display
+  appwriteItemId?: string; // The ID of the account in Appwrite
+  type: "full" | "card"; // The type of information to display
 }
 
+// Define the props for the HeaderBox component
 declare interface HeaderBoxProps {
-  type?: "title" | "greeting";
-  title: string;
-  subtext: string;
-  user?: string;
+  type?: "title" | "greeting"; // The type of header
+  title: string; // The title of the header
+  subtext: string; // The subtext of the header
+  user?: string; // The name of the user (optional)
 }
 
+// Define the props for the MobileNav component
 declare interface MobileNavProps {
-  user: User;
+  user: User; // The user object to display
 }
 
+// Define the props for the PageHeader component
 declare interface PageHeaderProps {
-  topTitle: string;
-  bottomTitle: string;
-  topDescription: string;
-  bottomDescription: string;
-  connectBank?: boolean;
+  topTitle: string; // The title at the top of the page
+  bottomTitle: string; // The title at the bottom of the page
+  topDescription: string; // The description at the top of the page
+  bottomDescription: string; // The description at the bottom of the page
+  connectBank?: boolean; // Whether to display a button to connect a bank
 }
 
+// Define the props for the Pagination component
 declare interface PaginationProps {
-  page: number;
-  totalPages: number;
+  page: number; // The current page number
+  totalPages: number; // The total number of pages
 }
 
+// Define the props for the PlaidLink component
 declare interface PlaidLinkProps {
-  user: User;
-  variant?: "primary" | "ghost";
-  dwollaCustomerId?: string;
+  user: User; // The user object to display
+  variant?: "primary" | "ghost"; // The variant of the link
+  dwollaCustomerId?: string; // The ID of the user's Dwolla customer (optional)
 }
 
+// Declare the type for the User object
 // declare type User = sdk.Models.Document & {
-//   accountId: string;
-//   email: string;
-//   name: string;
-//   items: string[];
-//   accessToken: string;
-//   image: string;
+//   accountId: string; // The ID of the account
+//   email: string; // The email address of the user
+//   name: string; // The name of the user
+//   items: string[]; // The IDs of the user's accounts
+//   accessToken: string; // The access token for the user's accounts
+//   image: string; // The URL of the user's profile image
 // };
 
+// Define the props for the AuthForm component
 declare interface AuthFormProps {
-  type: "sign-in" | "sign-up";
+  type: "sign-in" | "sign-up"; // The type of form to display
 }
 
+// Define the props for the BankDropdown component
 declare interface BankDropdownProps {
-  accounts: Account[];
-  setValue?: UseFormSetValue<any>;
-  otherStyles?: string;
+  accounts: Account[]; // The accounts to display in the dropdown
+  setValue?: UseFormSetValue<any>; // The function to set the value of the form field
+  otherStyles?: string; // Additional styles to apply to the dropdown
 }
 
 /**
+
  * Interface for the BankTabItem component props.
  * The props required for the BankTabItem component to render correctly.
  */
@@ -250,7 +342,7 @@ declare interface RightSidebarProps {
  * Interface for the Siderbar component props.
  * The props required for the Siderbar component to render correctly.
  */
-declare interface SiderbarProps {
+declare interface SidebarProps {
   // The user object for the currently logged in user
   user: User;
 }
