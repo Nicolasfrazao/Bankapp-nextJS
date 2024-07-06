@@ -22,8 +22,8 @@ const getEnvironment = (): "production" | "sandbox" => {
 // Create a new Dwolla client with the environment and keys from the environment variables.
 const dwollaClient = new Client({
   environment: getEnvironment(),
-  key: process.env.DWOLLA_KEY as string,
-  secret: process.env.DWOLLA_SECRET as string,
+  key: process.env.DWOLLA_API_KEY as string,
+  secret: process.env.DWOLLA_API_SECRET as string,
 });
 
 // Function to create a Dwolla Funding Source using a Plaid Processor Token.

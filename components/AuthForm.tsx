@@ -16,7 +16,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form" 
 import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
@@ -24,86 +24,64 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
-/**
- * AuthForm component is a form that allows users to either sign up or sign in.
- * It uses React Hook Form, Zod, and Appwrite for form validation and handling.
- * 
- * @param {string} type - The type of the form ("sign-in" or "sign-up").
- * @return {JSX.Element} The AuthForm component.
- */
-const AuthForm = ({ type }: { type: string }) => {
-  // Define state variables
-  const router = useRouter(); // Get the Next.js router
-  const [user, setUser] = useState(null); // Define state for the user object
-  const [isLoading, setIsLoading] = useState(false); // Define state for the loading state
 
-  // Define the form schema using the authFormSchema function
+const AuthForm = ({ type }: { type: string }) => {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const formSchema = authFormSchema(type);
 
-  // 1. Initialize the form using React Hook Form.
-  // - Resolver: Validate the form data using Zod.
-  // - Default values: Set the default values for the form fields.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "", // Email field is empty by default
-      password: '' // Password field is empty by default
-    },
-  })
-  
-  /**
-   * 2. Define a submit handler for the form.
-   * - The handler is an asynchronous function that takes the form data as input.
-   * - It sets the loading state to true.
-   * - It checks the form type and performs the appropriate action:
-   *   - If the form type is "sign-up", it signs up the user with Appwrite and creates a Plaid token.
-   *   - If the form type is "sign-in", it signs in the user with Appwrite.
-   * - If an error occurs during the sign-up or sign-in process, it logs the error.
-   * - Finally, it sets the loading state to false.
-   * 
-   * @param {z.infer<typeof formSchema>} data - The form data.
-   * @return {Promise<void>} A promise that resolves when the form is submitted.
-   */
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setIsLoading(true); // Set the loading state to true
+    // 1. Define your form.
+    const form = useForm<z.infer<typeof formSchema>>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        email: "",
+        password: ''
+      },
+    })
+   
+    // 2. Define a submit handler.
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+      setIsLoading(true);
 
-    try {
-      // Sign up with Appwrite & create plaid token
-      if(type === 'sign-up') {
-        const userData = {
-          firstName: data.firstName!, // First name from the form data
-          lastName: data.lastName!, // Last name from the form data
-          address1: data.address1!, // Address 1 from the form data
-          city: data.city!, // City from the form data
-          state: data.state!, // State from the form data
-          postalCode: data.postalCode!, // Postal code from the form data
-          dateOfBirth: data.dateOfBirth!, // Date of birth from the form data
-          ssn: data.ssn!, // SSN from the form data
-          email: data.email, // Email from the form data
-          password: data.password // Password from the form data
+      try {
+        // Sign up with Appwrite & create plaid token
+        
+        if(type === 'sign-up') {
+          const userData = {
+            firstName: data.firstName!,
+            lastName: data.lastName!,
+            address1: data.address1!,
+            city: data.city!,
+            state: data.state!,
+            postalCode: data.postalCode!,
+            dateOfBirth: data.dateOfBirth!,
+            ssn: data.ssn!,
+            email: data.email,
+            password: data.password
+          }
+
+          const newUser = await signUp(userData);
+
+          setUser(newUser);
         }
 
-        // Sign up the user with Appwrite
-        const newUser = await signUp(userData);
+        if(type === 'sign-in') {
+          const response = await signIn({
+            email: data.email,
+            password: data.password,
+          })
 
-        setUser(newUser); // Set the user state to the new user object
+          if(response) router.push('/')
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-
-      if(type === 'sign-in') {
-        // Sign in the user with Appwrite
-        const response = await signIn({
-          email: data.email, // Email from the form data
-          password: data.password, // Password from the form data
-        })
-
-        if(response) router.push('/') // Redirect to the home page if sign-in is successful
-      }
-    } catch (error) {
-      console.log(error); // Log any errors that occur during sign-up or sign-in
-    } finally {
-      setIsLoading(false); // Set the loading state to false
     }
-  }
+
   return (
     <section className="auth-form">
       <header className='flex flex-col gap-5 md:gap-8'>
