@@ -1,14 +1,26 @@
-export default function Home() {
+import HeaderBox from "@/components/HeaderBox";
+import RecentTransactions from "@/components/RecentTransactions";
+import RightSidebar from "@/components/RightSidebar";
+import TotalBalanceBox from "@/components/TotalBalanceBox";
+import { getAccount, getAccounts } from "@/lib/actions/bank.actions";
+import { getLoggedInUser } from "@/lib/actions/user.actions";
+
+const Home = async( { searchParams: { id, page } } : SearchParamProps) =>
+{
+  const currentPage = Number( page as string ) || 1;
+  const loggedIn = await getLoggedInUser();
+  const accounts = await getAccounts( {
+    userId: loggedIn.$id
+  } )
+  
+  if ( !accounts ) return;
+  
+
   return (
-    <main className="home">
-      <div>
-        <header>
-          Header Box
-          Total Balance Box
-        </header>
-        Recent Transations
-      </div>
-        Right Side Bar
-    </main>
-  );
+    <section>
+      Test
+    </section>
+  )
 }
+
+export default Home;

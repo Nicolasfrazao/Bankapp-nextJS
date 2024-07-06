@@ -1,6 +1,3 @@
-import { getTransactionStatus } from "./../public/assets/lib/utils";
-/* eslint-disable no-prototype-builtins */
-
 // Importing necessary dependencies
 import { type ClassValue, clsx } from "clsx";
 import qs from "query-string";
